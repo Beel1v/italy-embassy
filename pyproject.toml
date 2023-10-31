@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "italy_embassy"
+version = "0.0.1"
+description = ""
+authors = ["Igor Leukhin"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+selenium = "^4.14.0"
+requests = "^2.31.0"
+types-requests = "^2.31.0.10"
+loguru = "^0.7.2"
+python-dotenv = "^1.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.2"
+black = {extras = ["jupyter"], version = "^23.9.1"}
+isort = {extras = ["jupyter"], version = "^5.12.0"}
+ruff = "^0.0.291"
+pytest = "^7.4.2"
+mypy = "^1.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["E", "F", "I", "UP"]
+line-length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
