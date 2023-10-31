@@ -80,6 +80,7 @@ def check_dates() -> None:
         time.sleep(2)
     except Exception:
         send_message("Exception: element not found")
+        logger.exception("Exception")
     finally:
         driver.quit()
 
