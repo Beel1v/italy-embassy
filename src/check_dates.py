@@ -26,6 +26,12 @@ def send_message(message: str) -> None:
         send_telegram_message(message, str(user), token)
 
 
+def _open(driver: ChromeDriver) -> None:
+    driver.get("https://www.google.com/")
+    time.sleep(1)
+    driver.get("https://prenotami.esteri.it/Services")
+
+
 def _login(driver: ChromeDriver) -> None:
     wait = WebDriverWait(driver, 30)
     wait.until(EC.presence_of_element_located((By.ID, "login-email")))
@@ -49,18 +55,17 @@ def _book(driver: ChromeDriver) -> None:
     driver.find_element(by, value).click()
 
 
-def _get_message(driver: ChromeDriver) -> str:
+def _get_short_message(driver: ChromeDriver) -> str:
     wait = WebDriverWait(driver, 30)
     by, value = By.CLASS_NAME, "jconfirm-content"
-    wait.until(EC.presence_of_element_located((by, value)))
-    a = driver.find_element(by, value)
-    return a.text
-
-
-def _open(driver: ChromeDriver) -> None:
-    driver.get("https://www.google.com/")
-    time.sleep(1)
-    driver.get("https://prenotami.esteri.it/Services")
+    try:
+        wait.until(EC.presence_of_element_located((by, value)))
+        a = driver.find_element(by, value)
+        if "Sorry" in a.text:
+            return "sorry"
+    except Exception:
+        pass
+    return "hurry"
 
 
 def check_dates() -> None:
@@ -72,9 +77,8 @@ def check_dates() -> None:
         _open(driver)
         _login(driver)
         _book(driver)
-        message = _get_message(driver)
-        if "Sorry" in message:
-            logging.info("0: No meetings available")
+        if _get_short_message(driver) == "sorry":
+            logging.info("No meetings available")
         else:
             send_message("Available slots! Hurry up!!!")
         time.sleep(2)
