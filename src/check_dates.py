@@ -35,7 +35,7 @@ def _open(driver: ChromeDriver) -> None:
 def _login(driver: ChromeDriver) -> None:
     wait = WebDriverWait(driver, 30)
     wait.until(EC.presence_of_element_located((By.ID, "login-email")))
-    time.sleep(2)
+    time.sleep(1)
     username = driver.find_element(By.ID, "login-email")
     username.clear()
     username.send_keys(get_prenotami_user())
@@ -81,7 +81,7 @@ def check_dates() -> None:
             logging.info("No meetings available")
         else:
             send_message("Available slots! Hurry up!!!")
-        time.sleep(2)
+        time.sleep(1)
     except Exception:
         send_message("Exception: element not found")
         logger.exception("Exception")
