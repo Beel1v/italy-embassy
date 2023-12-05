@@ -27,7 +27,7 @@ def send_message(message: str) -> None:
 
 
 def _open(driver: ChromeDriver) -> None:
-    driver.get("https://www.google.com/")
+    driver.get("https://translate.yandex.ru/")
     time.sleep(1)
     driver.get("https://prenotami.esteri.it/Services")
 
@@ -80,11 +80,13 @@ def check_dates() -> None:
         if _get_short_message(driver) == "sorry":
             logging.info("No meetings available")
         else:
-            send_message("Available slots! Hurry up!!!")
+            send_message("Available slots! Hurry up!!!\n"
+                         "https://prenotami.esteri.it/Services")
         time.sleep(1)
     except Exception:
-        send_message("Exception: element not found")
-        logger.exception("Exception")
+        send_message("Exception: element not found\n"
+                     "https://prenotami.esteri.it/Services")
+        logger.exception(driver.page_source)
     finally:
         driver.quit()
 
